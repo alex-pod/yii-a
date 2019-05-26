@@ -117,4 +117,16 @@ class SeedController extends Controller
 
         $this->stdout("Transactions have been generated\n", Console::BOLD);
     }
+
+    /**
+     * Generates all needed data.
+     *
+     * @throws \Exception
+     */
+    public function actionEverything(): void
+    {
+        $this->actionCustomers();
+        $this->actionDepositAccounts();
+        $this->actionTransactions();
+    }
 }
