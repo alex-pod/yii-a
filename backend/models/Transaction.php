@@ -8,6 +8,7 @@ declare(strict_types = 1);
 
 namespace backend\models;
 
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 
 /**
@@ -35,6 +36,16 @@ class Transaction extends BaseActiveRecord
     public static function tableName(): string
     {
         return 'transaction';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors(): array
+    {
+        return [
+            TimestampBehavior::class,
+        ];
     }
 
     /**

@@ -8,6 +8,7 @@ declare(strict_types = 1);
 
 namespace backend\models;
 
+use DateTime;
 use yii\db\ActiveQuery;
 
 /**
@@ -30,7 +31,7 @@ class DepositAccount extends BaseActiveRecord
      */
     public static function tableName(): string
     {
-        return '{{%deposit_account}}';
+        return 'deposit_account';
     }
 
     /**
@@ -46,6 +47,23 @@ class DepositAccount extends BaseActiveRecord
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::class, 'targetAttribute' =>
                 ['customer_id' => 'id']],
         ];
+    }
+
+    /**
+     * Get all deposits that should be charged for interests.
+     *
+     * @return array
+     */
+    public static function getAllToChargeInterests(): array
+    {
+        $todayDay = (new DateTime())->format('j');
+        $lastDayOfMonth = (new DateTime())->format('t');
+
+         if ($todayDay === $lastDayOfMonth) {
+             return self::findBySql("SELECT * FROM ".self::tableName()." WHERE DAY(open_date) >= $todayDay")->all();
+         }
+
+         return self::findBySql("SELECT * FROM ".self::tableName()." WHERE DAY(open_date) = $todayDay")->all();
     }
 
     /**
