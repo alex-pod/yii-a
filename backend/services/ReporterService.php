@@ -13,11 +13,11 @@ use yii\base\BaseObject;
 use backend\services\interfaces\ReporterInterface;
 
 /**
- * Class Reporter
+ * Class ReporterService
  *
  * @package backend\services
  */
-class Reporter extends BaseObject implements ReporterInterface
+class ReporterService extends BaseObject implements ReporterInterface
 {
     /**
      * Returns average balance of a deposit grouped by 3 age groups (18-25, 25-50 and above 50).
@@ -35,6 +35,10 @@ class Reporter extends BaseObject implements ReporterInterface
                 AVG(IF(@age >= 50, avail_balance, NULL)) as '50+'
             FROM customer JOIN deposit_account ON customer.id = deposit_account.customer_id
         ")->queryOne();
+        // TODO probably use cache for min TTL 1 day, because date of birth won't change in this period.
+
+        // TODO another approach is to use extra field with calculated data like age, it can be indexed then
+        // and boost app's performance.
     }
 
     /**

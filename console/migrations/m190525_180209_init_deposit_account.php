@@ -21,6 +21,7 @@ class m190525_180209_init_deposit_account extends Migration
             'avail_balance' => $this->decimal(10, 2)->notNull(),
             'interest_rate' => $this->smallInteger()->notNull(),
             'open_date' => $this->date()->notNull(),
+            'open_day' => $this->tinyInteger()->notNull(),
             'status' => $this->tinyInteger(),
             'customer_id' => $this->integer()->notNull(),
         ],

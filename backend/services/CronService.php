@@ -58,9 +58,9 @@ class CronService
 
         /** @var DepositAccount $deposit */
         foreach ($deposits as $deposit) {
-            $amount = $this->chargeService->chargeInterest($deposit);
+            $deposit = $this->chargeService->chargeInterest($deposit);
             if ($deposit->save()) {
-                $this->transactionService->log(Transaction::TYPE_CHARGE_INTEREST, $amount, $deposit->id);
+                $this->transactionService->log(Transaction::TYPE_CHARGE_INTEREST, $deposit->avail_balance, $deposit->id);
             }
         }
     }
@@ -71,9 +71,9 @@ class CronService
     private function chargeFee(): void
     {
         foreach (DepositAccount::find()->each(100) as $deposit) {
-            $amount = $this->chargeService->chargeFee($deposit);
+            $deposit = $this->chargeService->chargeFee($deposit);
             if ($deposit->save()) {
-                $this->transactionService->log(Transaction::TYPE_CHARGE_INTEREST, $amount, $deposit->id);
+                $this->transactionService->log(Transaction::TYPE_CHARGE_MAINTENANCE_FEE, $deposit->avail_balance, $deposit->id);
             }
         }
     }

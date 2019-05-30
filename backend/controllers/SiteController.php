@@ -1,7 +1,8 @@
 <?php
 namespace backend\controllers;
 
-use backend\services\Reporter;
+use backend\services\interfaces\ReporterInterface;
+use backend\services\ReporterService;
 use Yii;
 use yii\web\Controller;
 
@@ -19,8 +20,8 @@ class SiteController extends Controller
      */
     public function actionIndex(): string
     {
-        /** @var Reporter $reporter */
-        $reporter = Yii::createObject(Reporter::class);
+        /** @var ReporterService $reporter */
+        $reporter = Yii::createObject(ReporterInterface::class);
 
         return $this->render('index', [
            'avgDeposit' => $reporter->getAvgAmountDepositByAgeGroups(),

@@ -10,4 +10,12 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
     ],
+    'container' => [
+        'singletons' => [
+            \backend\services\interfaces\ChargeServiceInterface::class => \backend\services\ChargeService::class,
+            \backend\services\interfaces\TransactionServiceInterface::class =>
+                \backend\services\TransactionService::class,
+            \backend\services\interfaces\ReporterInterface::class => \backend\services\ReporterService::class,
+        ],
+    ],
 ];

@@ -46,22 +46,22 @@ class ChargeService implements ChargeServiceInterface
         $fee = 0;
 
         if ($availableBalance > 0 && $availableBalance < 1000) {
-            $fee = $availableBalance * ChargeServiceInterface::FEE_PERCENT_0_TO_1000;
+            $fee = $availableBalance * self::FEE_PERCENT_0_TO_1000;
             $fee = $this->calculatePartialFee($depositAccount->open_date, $fee);
-            if ($fee < ChargeServiceInterface::MAINTENANCE_FEE_FIXED_MIN) {
-                $fee = ChargeServiceInterface::MAINTENANCE_FEE_FIXED_MIN;
+            if ($fee < self::MAINTENANCE_FEE_FIXED_MIN) {
+                $fee = self::MAINTENANCE_FEE_FIXED_MIN;
             }
         }
 
         if ($availableBalance >= 1000 && $availableBalance < 10000) {
-            $fee = $availableBalance * ChargeServiceInterface::FEE_PERCENT_1000_TO_10000;
+            $fee = $availableBalance * self::FEE_PERCENT_1000_TO_10000;
         }
 
         if ($availableBalance >= 10000) {
-            $fee = $availableBalance * ChargeServiceInterface::FEE_PERCENT_ABOVE_10000;
+            $fee = $availableBalance * self::FEE_PERCENT_ABOVE_10000;
             $fee = $this->calculatePartialFee($depositAccount->open_date, $fee);
-            if ($fee > ChargeServiceInterface::MAINTENANCE_FEE_FIXED_MAX) {
-                $fee = ChargeServiceInterface::MAINTENANCE_FEE_FIXED_MAX;
+            if ($fee > self::MAINTENANCE_FEE_FIXED_MAX) {
+                $fee = self::MAINTENANCE_FEE_FIXED_MAX;
             }
         }
 
@@ -87,6 +87,7 @@ class ChargeService implements ChargeServiceInterface
             $currentDatetime->format('n') - $openDatetime->format('n') === 1) {
             $daysInMonth = date('t', strtotime($openDate));
             $daysToBeCharged = $daysInMonth - $openDatetime->format('j') + 1;
+
             return ($fee / $daysInMonth) * $daysToBeCharged;
         }
 

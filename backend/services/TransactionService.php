@@ -22,14 +22,12 @@ class TransactionService implements TransactionServiceInterface
      * @param int   $type
      * @param float $amount
      * @param int   $depositAccountId
-     *
-     * @return bool
      */
     public function log(
         int $type,
         float $amount,
         int $depositAccountId
-    ): bool {
+    ): void {
         $txn = new Transaction();
 
         $txn->type = $type;

@@ -18,6 +18,7 @@ use yii\db\ActiveQuery;
  * @property float   $avail_balance
  * @property int     $interest_rate
  * @property string  $open_date
+ * @property int     $open_day
  * @property int     $status
  * @property int     $customer_id
  */
@@ -42,7 +43,7 @@ class DepositAccount extends BaseActiveRecord
         return [
             ['avail_balance', 'number'],
             ['open_date', 'date', 'format' => 'php:Y-m-d'],
-            ['interest_rate', 'integer', 'min' => 0],
+            [['interest_rate', 'open_day'], 'integer', 'min' => 0],
             ['status', 'in', 'range' => [self::STATUS_CLOSED, self::STATUS_OPENED]],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::class, 'targetAttribute' =>
                 ['customer_id' => 'id']],
@@ -59,11 +60,11 @@ class DepositAccount extends BaseActiveRecord
         $todayDay = (new DateTime())->format('j');
         $lastDayOfMonth = (new DateTime())->format('t');
 
-         if ($todayDay === $lastDayOfMonth) {
-             return self::findBySql("SELECT * FROM ".self::tableName()." WHERE DAY(open_date) >= $todayDay")->all();
-         }
+        if ($todayDay === $lastDayOfMonth) {
+            return self::find()->where(['>=', 'open_day', $todayDay])->all();
+        }
 
-         return self::findBySql("SELECT * FROM ".self::tableName()." WHERE DAY(open_date) = $todayDay")->all();
+        return self::find()->where(['open_day' => $todayDay])->all();
     }
 
     /**

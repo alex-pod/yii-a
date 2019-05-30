@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Class m190529_211509_add_open_date_key
  */
-class m190529_211509_add_open_date_key extends Migration
+class m190529_211509_add_open_day_key extends Migration
 {
     private const TABLE_NAME_DEPOSIT_ACCOUNT = '{{%deposit_account}}';
 
@@ -15,9 +15,9 @@ class m190529_211509_add_open_date_key extends Migration
     public function safeUp()
     {
         $this->createIndex(
-            'open_date',
+            'open_day',
             self::TABLE_NAME_DEPOSIT_ACCOUNT,
-            'open_date'
+            'open_day'
         );
     }
 
@@ -27,7 +27,7 @@ class m190529_211509_add_open_date_key extends Migration
     public function safeDown()
     {
         $this->dropIndex(
-            'open_date',
+            'open_day',
             self::TABLE_NAME_DEPOSIT_ACCOUNT
         );
     }

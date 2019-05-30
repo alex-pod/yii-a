@@ -83,6 +83,7 @@ class SeedController extends Controller
             $depositAccount->avail_balance = random_int(1, 10000);
             $depositAccount->interest_rate = random_int(1, 100);
             $depositAccount->open_date = $this->faker->date();
+            $depositAccount->open_day = explode('-', $depositAccount->open_date)[2] ?? '';
             $depositAccount->status = random_int(DepositAccount::STATUS_CLOSED, DepositAccount::STATUS_OPENED);
             $depositAccount->customer_id = array_rand($customerIds, 1);
             $depositAccount->save();
